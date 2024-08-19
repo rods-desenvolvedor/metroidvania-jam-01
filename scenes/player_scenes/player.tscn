@@ -1,0 +1,145 @@
+[gd_scene load_steps=20 format=3 uid="uid://xtyxj2sqgqfh"]
+
+[ext_resource type="Texture2D" uid="uid://duiny3lc3nyet" path="res://assets/player_assets/Hero Blue 54x53 Sprite.png" id="1_gipu1"]
+[ext_resource type="Script" path="res://scripts/player_scripts/player.gd" id="1_n204c"]
+[ext_resource type="Texture2D" uid="uid://bkwbumsasayv1" path="res://assets/player_assets/gun sprite.png" id="2_d53pv"]
+[ext_resource type="PackedScene" uid="uid://dltkniepp3hy3" path="res://scenes/components_scenes/health_component.tscn" id="4_2pvp1"]
+[ext_resource type="Script" path="res://scripts/player_scripts/player_gun.gd" id="4_unpq1"]
+[ext_resource type="PackedScene" uid="uid://cyn0bfgonymmi" path="res://scenes/bullets_scenes/simple_bullet.tscn" id="5_1ikkb"]
+[ext_resource type="PackedScene" uid="uid://bs6si2abqd16y" path="res://scenes/components_scenes/hurtbox_component.tscn" id="5_8a7jh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ytbu0"]
+atlas = ExtResource("1_gipu1")
+region = Rect2(108, 0, 54, 53)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0obgn"]
+atlas = ExtResource("1_gipu1")
+region = Rect2(0, 159, 54, 53)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_guqug"]
+atlas = ExtResource("1_gipu1")
+region = Rect2(54, 159, 54, 53)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yjl8l"]
+atlas = ExtResource("1_gipu1")
+region = Rect2(108, 159, 54, 53)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_frh4e"]
+atlas = ExtResource("1_gipu1")
+region = Rect2(162, 159, 54, 53)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hdkdk"]
+atlas = ExtResource("1_gipu1")
+region = Rect2(216, 159, 54, 53)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6gdpq"]
+atlas = ExtResource("1_gipu1")
+region = Rect2(270, 159, 54, 53)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_64eq2"]
+atlas = ExtResource("1_gipu1")
+region = Rect2(324, 159, 54, 53)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_okejh"]
+atlas = ExtResource("1_gipu1")
+region = Rect2(378, 159, 54, 53)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_u2ba7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ytbu0")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0obgn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_guqug")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yjl8l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_frh4e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hdkdk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6gdpq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_64eq2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_okejh")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8eotk"]
+radius = 5.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_w3uy2"]
+radius = 5.0
+height = 20.0
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+script = ExtResource("1_n204c")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_u2ba7")
+animation = &"walk"
+offset = Vector2(6, -5)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_8eotk")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2.5, 2.5)
+position_smoothing_enabled = true
+
+[node name="GunPivot" type="Marker2D" parent="."]
+position = Vector2(0, -8)
+
+[node name="GunSprite" type="Sprite2D" parent="GunPivot"]
+position = Vector2(11, 0)
+texture = ExtResource("2_d53pv")
+
+[node name="BulletInitialPos" type="Marker2D" parent="GunPivot/GunSprite"]
+position = Vector2(10, -1)
+
+[node name="Gun" type="Node2D" parent="GunPivot"]
+script = ExtResource("4_unpq1")
+bullet = ExtResource("5_1ikkb")
+
+[node name="HealthComponent" parent="." instance=ExtResource("4_2pvp1")]
+
+[node name="HurtboxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("5_8a7jh")]
+position = Vector2(0, -5)
+health_component = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
+position = Vector2(0, -4)
+shape = SubResource("CapsuleShape2D_w3uy2")
+
+[node name="Timers" type="Node" parent="."]
+
+[node name="ShootTimer" type="Timer" parent="Timers"]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="timeout" from="Timers/ShootTimer" to="GunPivot/Gun" method="_on_shoot_timer_timeout"]
