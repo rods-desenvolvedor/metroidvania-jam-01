@@ -8,7 +8,7 @@ var can_shoot : bool = true
 
 @onready var bullet_initial_pos : Marker2D = $"../GunSprite/BulletInitialPos"
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("shoot"):
 		shoot()
 		pass

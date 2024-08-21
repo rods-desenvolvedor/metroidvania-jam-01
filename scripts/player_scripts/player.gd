@@ -1,4 +1,6 @@
 extends CharacterBody2D
+class_name PlayerClass
+
 
 var direction : float = 0.0
 var speed : float = 50.0
@@ -55,5 +57,5 @@ func update_animation() -> void:
 	else:
 		animated_sprite.play("jump")
 	
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	move_and_slide()

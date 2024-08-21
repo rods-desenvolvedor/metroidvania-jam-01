@@ -17,6 +17,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 PlayerGlobalStatus="*res://scripts/globals_scripts/player_global_status.gd"
+LevelManager="*res://scripts/globals_scripts/level_manager.gd"
 
 [display]
 

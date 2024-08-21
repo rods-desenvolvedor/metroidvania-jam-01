@@ -1,15 +1,17 @@
-[gd_scene load_steps=4 format=3 uid="uid://ipb0vljm0lpf"]
+[gd_scene load_steps=6 format=3 uid="uid://ipb0vljm0lpf"]
 
-[ext_resource type="PackedScene" uid="uid://xtyxj2sqgqfh" path="res://scenes/player_scenes/player.tscn" id="1_4jdvx"]
+[ext_resource type="Script" path="res://scripts/levels_scripts/test_level.gd" id="1_204r4"]
 [ext_resource type="Texture2D" uid="uid://b4fc72sh1a7l6" path="res://icon.svg" id="2_eb0wq"]
+[ext_resource type="PackedScene" uid="uid://dmmm6pseduumv" path="res://scenes/components_scenes/door_trigger_component.tscn" id="3_rx5cn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d17tm"]
 size = Vector2(226, 20)
 
-[node name="TestLevel" type="Node2D"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_l5wef"]
+radius = 24.0208
 
-[node name="Player" parent="." instance=ExtResource("1_4jdvx")]
-position = Vector2(213, 160)
+[node name="TestLevel" type="Node2D"]
+script = ExtResource("1_204r4")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
@@ -21,3 +23,39 @@ texture = ExtResource("2_eb0wq")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(231, 193)
 shape = SubResource("RectangleShape2D_d17tm")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+position = Vector2(538, -48)
+rotation = 1.5708
+
+[node name="Icon" type="Sprite2D" parent="StaticBody2D2"]
+position = Vector2(231.5, 192)
+scale = Vector2(1.77344, 0.15625)
+texture = ExtResource("2_eb0wq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+position = Vector2(231, 193)
+shape = SubResource("RectangleShape2D_d17tm")
+
+[node name="DoorTriggerComponent" parent="." instance=ExtResource("3_rx5cn")]
+position = Vector2(309, 161)
+connected_scene = "level_01"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DoorTriggerComponent"]
+shape = SubResource("CircleShape2D_l5wef")
+
+[node name="EntranceMarkers" type="Node2D" parent="."]
+
+[node name="Level01" type="Marker2D" parent="EntranceMarkers"]
+position = Vector2(255, 175)
+
+[node name="Label" type="Label" parent="."]
+offset_left = 189.0
+offset_top = 131.0
+offset_right = 266.0
+offset_bottom = 154.0
+text = "Level Test
+"
+
+[node name="InitPos" type="Marker2D" parent="."]
+position = Vector2(136, 168)
