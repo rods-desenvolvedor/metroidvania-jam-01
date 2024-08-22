@@ -13,14 +13,12 @@ var mouse_pos : Vector2 = Vector2.ZERO
 @onready var animated_sprite : AnimatedSprite2D = $AnimatedSprite2D
 
 
+
 func _process(delta: float) -> void:
 	
 	direction = Input.get_axis("walk_left", "walk_right")
 	
 	mouse_pos =  get_global_mouse_position()
-	
-	if is_on_floor() && Input.is_action_just_pressed("jump"):
-		velocity.y = jump_speed
 	
 	if not is_on_floor():
 		velocity.y += gravity_speed * delta
@@ -29,7 +27,8 @@ func _process(delta: float) -> void:
 		velocity.x = direction * speed
 	else:
 		velocity.x = move_toward(velocity.x, 0 , speed)
-	
+		
+	use_skills()
 	update_animation()
 	move_gun()
 	
@@ -59,3 +58,11 @@ func update_animation() -> void:
 	
 func _physics_process(_delta: float) -> void:
 	move_and_slide()
+
+func use_skills() -> void:
+	if is_on_floor():
+		PlayerGlobalStatus.jump_count = 0
+	if Input.is_action_just_pressed("jump") && PlayerGlobalStatus.jump_count < PlayerGlobalStatus.max_jumps:
+		velocity.y = jump_speed
+		PlayerGlobalStatus.jump_count += 1
+	pass

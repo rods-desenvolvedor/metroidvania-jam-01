@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://bnfsjagh6kp2c"]
+[gd_scene load_steps=10 format=3 uid="uid://bnfsjagh6kp2c"]
 
 [ext_resource type="Script" path="res://scripts/levels_scripts/level_01.gd" id="1_fekg4"]
 [ext_resource type="Texture2D" uid="uid://dnh6aqn4nqh4a" path="res://assets/enviroments_assets/ancient_caves_tileset/Tileset and SpriteSheets/Tileset Add on3.png" id="2_eloch"]
 [ext_resource type="PackedScene" uid="uid://xtyxj2sqgqfh" path="res://scenes/player_scenes/player.tscn" id="2_qf50f"]
 [ext_resource type="Texture2D" uid="uid://bfrbbubr73xhb" path="res://assets/enviroments_assets/ancient_caves_tileset/news/tileset-new.png" id="3_2nrhv"]
+[ext_resource type="PackedScene" uid="uid://dyhe7sic0bqbj" path="res://scenes/components_scenes/skill_giver_component.tscn" id="5_snwh3"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hj4wv"]
 texture = ExtResource("2_eloch")
@@ -1123,6 +1124,8 @@ terrain_set_1/terrain_0/color = Color(0.586891, 0.0407174, 0.708646, 1)
 sources/0 = SubResource("TileSetAtlasSource_hj4wv")
 sources/3 = SubResource("TileSetAtlasSource_56g7a")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8rp30"]
+
 [node name="Level01" type="Node2D"]
 script = ExtResource("1_fekg4")
 
@@ -1149,3 +1152,11 @@ layer_3/tile_data = PackedInt32Array(917507, 917504, 20, 917508, 983040, 20, 917
 
 [node name="TestLevel" type="Marker2D" parent="EntranceMarkers"]
 position = Vector2(191, 172)
+
+[node name="SkillGiverComponent" parent="." instance=ExtResource("5_snwh3")]
+position = Vector2(489, 182)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SkillGiverComponent"]
+shape = SubResource("RectangleShape2D_8rp30")
+
+[connection signal="new_skill" from="SkillGiverComponent" to="." method="_on_skill_giver_component_new_skill"]
