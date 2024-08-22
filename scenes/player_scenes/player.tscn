@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://xtyxj2sqgqfh"]
+[gd_scene load_steps=22 format=3 uid="uid://xtyxj2sqgqfh"]
 
 [ext_resource type="Texture2D" uid="uid://duiny3lc3nyet" path="res://assets/player_assets/Hero Blue 54x53 Sprite.png" id="1_gipu1"]
 [ext_resource type="Script" path="res://scripts/player_scripts/player.gd" id="1_n204c"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://scripts/player_scripts/player_gun.gd" id="4_unpq1"]
 [ext_resource type="PackedScene" uid="uid://cyn0bfgonymmi" path="res://scenes/bullets_scenes/simple_bullet.tscn" id="5_1ikkb"]
 [ext_resource type="PackedScene" uid="uid://bs6si2abqd16y" path="res://scenes/components_scenes/hurtbox_component.tscn" id="5_8a7jh"]
+[ext_resource type="Script" path="res://scripts/player_scripts/player_skills_scripts/skill_manager.gd" id="8_esg7j"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ytbu0"]
 atlas = ExtResource("1_gipu1")
@@ -101,6 +102,7 @@ radius = 5.0
 height = 22.0
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
+z_index = 5
 script = ExtResource("1_n204c")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -113,7 +115,12 @@ position = Vector2(0, -5)
 shape = SubResource("CircleShape2D_8eotk")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(2.5, 2.5)
+zoom = Vector2(3.5, 3.5)
+limit_left = 0
+limit_top = 0
+limit_right = 1000
+limit_bottom = 360
+limit_smoothed = true
 position_smoothing_enabled = true
 
 [node name="GunPivot" type="Marker2D" parent="."]
@@ -148,11 +155,14 @@ one_shot = true
 
 [node name="PlayerArea" type="Area2D" parent="." groups=["player_area"]]
 collision_layer = 2
-collision_mask = 0
+collision_mask = 512
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerArea"]
 position = Vector2(0, -9)
 shape = SubResource("CapsuleShape2D_nt17b")
 debug_color = Color(0.494174, 0.448643, 0.956573, 0.42)
+
+[node name="SkillManager" type="Node" parent="."]
+script = ExtResource("8_esg7j")
 
 [connection signal="timeout" from="Timers/ShootTimer" to="GunPivot/Gun" method="_on_shoot_timer_timeout"]

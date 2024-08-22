@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://dyhe7sic0bqbj"]
+
+[ext_resource type="Script" path="res://scripts/components_scripts/skill_giver_component.gd" id="1_hvttx"]
+
+[node name="SkillGiverComponent" type="Area2D"]
+script = ExtResource("1_hvttx")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="area_exited" from="." to="." method="_on_area_exited"]
