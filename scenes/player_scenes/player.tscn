@@ -152,6 +152,10 @@ shape = SubResource("CapsuleShape2D_w3uy2")
 wait_time = 2.0
 one_shot = true
 
+[node name="ChargedShootTimer" type="Timer" parent="Timers"]
+wait_time = 3.0
+one_shot = true
+
 [node name="PlayerArea" type="Area2D" parent="." groups=["player_area"]]
 collision_layer = 2
 collision_mask = 512
@@ -161,4 +165,16 @@ position = Vector2(0, -9)
 shape = SubResource("CapsuleShape2D_nt17b")
 debug_color = Color(0.494174, 0.448643, 0.956573, 0.42)
 
+[node name="ProgressBar" type="ProgressBar" parent="."]
+visible = false
+offset_left = -11.0
+offset_top = -27.0
+offset_right = 14.0
+offset_bottom = -22.0
+min_value = 1.0
+max_value = 2.0
+value = 1.0
+show_percentage = false
+
 [connection signal="timeout" from="Timers/ShootTimer" to="GunPivot/Gun" method="_on_shoot_timer_timeout"]
+[connection signal="timeout" from="Timers/ChargedShootTimer" to="GunPivot/Gun" method="_on_charged_shoot_timer_timeout"]

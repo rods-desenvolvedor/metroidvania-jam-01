@@ -13,7 +13,7 @@ func _ready():
 	player_initial_pos = player.position
 	direction = Vector2.RIGHT.rotated(global_rotation)
 	hitbox_component.body_entered.connect(_on_body_entered)
-	hitbox_component.damage = 50.0
+	#hitbox_component.damage = 50.0
 	pass
 	
 func _process(_delta):

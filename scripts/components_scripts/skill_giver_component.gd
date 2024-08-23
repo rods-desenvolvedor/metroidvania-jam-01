@@ -14,6 +14,7 @@ func _ready() -> void:
 func _process(delta) -> void:
 	if player_on_skill_giver_area && Input.is_action_just_pressed("interact"):
 		new_skill.emit()
+		queue_free()
 
 func _on_area_entered(area) -> void:
 	if area == player_area:

@@ -7,6 +7,7 @@ var speed : float = 50.0
 var gravity_speed : float = 200.0
 var jump_speed : float = -100.0
 var mouse_pos : Vector2 = Vector2.ZERO
+var can_move : bool = true
 
 @onready var gun_pivot : Marker2D = $GunPivot
 @onready var gun_sprite : Sprite2D = $GunPivot/GunSprite
@@ -16,7 +17,8 @@ var mouse_pos : Vector2 = Vector2.ZERO
 
 func _process(delta: float) -> void:
 	
-	direction = Input.get_axis("walk_left", "walk_right")
+	if can_move:
+		direction = Input.get_axis("walk_left", "walk_right")
 	
 	mouse_pos =  get_global_mouse_position()
 	
