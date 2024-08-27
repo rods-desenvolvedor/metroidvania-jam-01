@@ -72,3 +72,7 @@ func use_skills() -> void:
 
 func _on_health_component_get_hit():
 	print($HealthComponent.current_health)
+
+
+func _on_health_component_died():
+	GameManager.respawn_player()

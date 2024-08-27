@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bnfsjagh6kp2c"]
+[gd_scene load_steps=12 format=3 uid="uid://bnfsjagh6kp2c"]
 
 [ext_resource type="Script" path="res://scripts/levels_scripts/level_01.gd" id="1_fekg4"]
 [ext_resource type="Texture2D" uid="uid://dnh6aqn4nqh4a" path="res://assets/enviroments_assets/ancient_caves_tileset/Tileset and SpriteSheets/Tileset Add on3.png" id="2_eloch"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bfrbbubr73xhb" path="res://assets/enviroments_assets/ancient_caves_tileset/news/tileset-new.png" id="3_2nrhv"]
 [ext_resource type="PackedScene" uid="uid://dyhe7sic0bqbj" path="res://scenes/components_scenes/skill_giver_component.tscn" id="5_snwh3"]
 [ext_resource type="PackedScene" uid="uid://ddve244sj00eu" path="res://scenes/enemies_scenes/ghoul_enemy.tscn" id="6_pk4xt"]
+[ext_resource type="PackedScene" uid="uid://c8wgekeptcknd" path="res://scenes/components_scenes/checkpoint_component.tscn" id="7_ekycw"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hj4wv"]
 texture = ExtResource("2_eloch")
@@ -1165,5 +1166,8 @@ shape = SubResource("RectangleShape2D_8rp30")
 
 [node name="GhoulEnemy" parent="." instance=ExtResource("6_pk4xt")]
 position = Vector2(158, 190)
+
+[node name="CheckpointComponent" parent="." instance=ExtResource("7_ekycw")]
+position = Vector2(392, 183)
 
 [connection signal="new_skill" from="SkillGiverComponent" to="." method="_on_skill_giver_component_new_skill"]

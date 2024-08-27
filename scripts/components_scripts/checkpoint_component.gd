@@ -18,6 +18,5 @@ func activate() -> void:
 func _on_detect_player_component_body_entered(body: Node2D) -> void:
 	if body == player && !activade:
 		activate()
-	pass # Replace with function body.
 
 

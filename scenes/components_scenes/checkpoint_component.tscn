@@ -1,12 +1,62 @@
-[gd_scene load_steps=5 format=3 uid="uid://c8wgekeptcknd"]
+[gd_scene load_steps=13 format=3 uid="uid://c8wgekeptcknd"]
 
 [ext_resource type="Script" path="res://scripts/components_scripts/checkpoint_component.gd" id="1_5lb5g"]
 [ext_resource type="PackedScene" uid="uid://3eb0perta3jo" path="res://scenes/enemies_scenes/enemies_components/detect_player_component.tscn" id="1_s6hn7"]
+[ext_resource type="Texture2D" uid="uid://d1v17vsx3r3tp" path="res://assets/enviroments_assets/Animated objects/Save/start up16x19.png" id="2_ifsmm"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ccfgm"]
+atlas = ExtResource("2_ifsmm")
+region = Rect2(0, 0, 16, 19)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_amjed"]
+atlas = ExtResource("2_ifsmm")
+region = Rect2(16, 0, 16, 19)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_31i3r"]
+atlas = ExtResource("2_ifsmm")
+region = Rect2(32, 0, 16, 19)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qmk14"]
+atlas = ExtResource("2_ifsmm")
+region = Rect2(48, 0, 16, 19)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ds2y7"]
+atlas = ExtResource("2_ifsmm")
+region = Rect2(64, 0, 16, 19)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vdfvh"]
+atlas = ExtResource("2_ifsmm")
+region = Rect2(80, 0, 16, 19)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ps5cf"]
+atlas = ExtResource("2_ifsmm")
+region = Rect2(96, 0, 16, 19)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_qudru"]
 animations = [{
-"frames": [],
-"loop": true,
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ccfgm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_amjed")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_31i3r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qmk14")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ds2y7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vdfvh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ps5cf")
+}],
+"loop": false,
 "name": &"save",
 "speed": 5.0
 }]
@@ -25,3 +75,5 @@ animation = &"save"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectPlayerComponent"]
 shape = SubResource("CircleShape2D_ectq7")
+
+[connection signal="body_entered" from="DetectPlayerComponent" to="." method="_on_detect_player_component_body_entered"]

@@ -102,6 +102,7 @@ height = 22.0
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 z_index = 5
+collision_layer = 2
 script = ExtResource("1_n204c")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -178,6 +179,7 @@ max_value = 2.0
 value = 1.0
 show_percentage = false
 
+[connection signal="died" from="HealthComponent" to="." method="_on_health_component_died"]
 [connection signal="get_hit" from="HealthComponent" to="." method="_on_health_component_get_hit"]
 [connection signal="timeout" from="Timers/ShootTimer" to="GunPivot/Gun" method="_on_shoot_timer_timeout"]
 [connection signal="timeout" from="Timers/ChargedShootTimer" to="GunPivot/Gun" method="_on_charged_shoot_timer_timeout"]
