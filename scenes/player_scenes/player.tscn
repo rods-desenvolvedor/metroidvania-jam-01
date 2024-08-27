@@ -1,12 +1,30 @@
-[gd_scene load_steps=21 format=3 uid="uid://xtyxj2sqgqfh"]
+[gd_scene load_steps=28 format=3 uid="uid://xtyxj2sqgqfh"]
 
 [ext_resource type="Texture2D" uid="uid://duiny3lc3nyet" path="res://assets/player_assets/Hero Blue 54x53 Sprite.png" id="1_gipu1"]
 [ext_resource type="Script" path="res://scripts/player_scripts/player.gd" id="1_n204c"]
-[ext_resource type="Texture2D" uid="uid://bkwbumsasayv1" path="res://assets/player_assets/gun sprite.png" id="2_d53pv"]
 [ext_resource type="PackedScene" uid="uid://dltkniepp3hy3" path="res://scenes/components_scenes/health_component.tscn" id="4_2pvp1"]
-[ext_resource type="Script" path="res://scripts/player_scripts/player_gun.gd" id="4_unpq1"]
-[ext_resource type="PackedScene" uid="uid://cyn0bfgonymmi" path="res://scenes/bullets_scenes/simple_bullet.tscn" id="5_1ikkb"]
 [ext_resource type="PackedScene" uid="uid://bs6si2abqd16y" path="res://scenes/components_scenes/hurtbox_component.tscn" id="5_8a7jh"]
+[ext_resource type="PackedScene" uid="uid://delafyvj7igsv" path="res://scenes/components_scenes/hitbox_component.tscn" id="8_px2d3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yklck"]
+atlas = ExtResource("1_gipu1")
+region = Rect2(0, 318, 54, 53)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1nivl"]
+atlas = ExtResource("1_gipu1")
+region = Rect2(54, 318, 54, 53)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k7sus"]
+atlas = ExtResource("1_gipu1")
+region = Rect2(108, 318, 54, 53)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_acrbc"]
+atlas = ExtResource("1_gipu1")
+region = Rect2(162, 318, 54, 53)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pqf63"]
+atlas = ExtResource("1_gipu1")
+region = Rect2(216, 318, 54, 53)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ytbu0"]
 atlas = ExtResource("1_gipu1")
@@ -46,6 +64,26 @@ region = Rect2(378, 159, 54, 53)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_u2ba7"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yklck")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1nivl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k7sus")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_acrbc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pqf63")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 15.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ytbu0")
@@ -100,6 +138,45 @@ height = 20.0
 radius = 5.0
 height = 22.0
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pil3s"]
+
+[sub_resource type="Animation" id="Animation_vcn8c"]
+resource_name = "attack"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("WeaponPivot/HitboxComponent/CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="Animation" id="Animation_sfny4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("WeaponPivot/HitboxComponent/CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lmij8"]
+_data = {
+"RESET": SubResource("Animation_sfny4"),
+"attack": SubResource("Animation_vcn8c")
+}
+
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 z_index = 5
 collision_layer = 2
@@ -107,7 +184,7 @@ script = ExtResource("1_n204c")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_u2ba7")
-animation = &"walk"
+animation = &"attack"
 offset = Vector2(6, -5)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -123,20 +200,6 @@ limit_bottom = 360
 limit_smoothed = true
 position_smoothing_enabled = true
 
-[node name="GunPivot" type="Marker2D" parent="."]
-position = Vector2(0, -8)
-
-[node name="GunSprite" type="Sprite2D" parent="GunPivot"]
-position = Vector2(11, 0)
-texture = ExtResource("2_d53pv")
-
-[node name="BulletInitialPos" type="Marker2D" parent="GunPivot/GunSprite"]
-position = Vector2(10, -1)
-
-[node name="Gun" type="Node2D" parent="GunPivot"]
-script = ExtResource("4_unpq1")
-bullet = ExtResource("5_1ikkb")
-
 [node name="HealthComponent" parent="." instance=ExtResource("4_2pvp1")]
 
 [node name="HurtboxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("5_8a7jh")]
@@ -151,7 +214,7 @@ shape = SubResource("CapsuleShape2D_w3uy2")
 
 [node name="Timers" type="Node" parent="."]
 
-[node name="ShootTimer" type="Timer" parent="Timers"]
+[node name="AttackTimer" type="Timer" parent="Timers"]
 wait_time = 2.0
 one_shot = true
 
@@ -179,7 +242,21 @@ max_value = 2.0
 value = 1.0
 show_percentage = false
 
+[node name="WeaponPivot" type="Marker2D" parent="."]
+
+[node name="HitboxComponent" parent="WeaponPivot" instance=ExtResource("8_px2d3")]
+collision_layer = 4
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WeaponPivot/HitboxComponent"]
+position = Vector2(17, -9)
+shape = SubResource("RectangleShape2D_pil3s")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_lmij8")
+}
+
 [connection signal="died" from="HealthComponent" to="." method="_on_health_component_died"]
 [connection signal="get_hit" from="HealthComponent" to="." method="_on_health_component_get_hit"]
-[connection signal="timeout" from="Timers/ShootTimer" to="GunPivot/Gun" method="_on_shoot_timer_timeout"]
-[connection signal="timeout" from="Timers/ChargedShootTimer" to="GunPivot/Gun" method="_on_charged_shoot_timer_timeout"]
+[connection signal="timeout" from="Timers/AttackTimer" to="." method="_on_attack_timer_timeout"]

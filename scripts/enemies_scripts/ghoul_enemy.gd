@@ -3,7 +3,7 @@ extends CharacterBody2D
 var player : CharacterBody2D
 var player_area : Area2D
 var speed : float
-var base_speed : float = 30.0
+var base_speed : float = 60.0
 var dir := -1
 var player_on_attack_area : bool = false
 
@@ -45,7 +45,7 @@ func _physics_process(_delta: float) -> void:
 func handle_state_transitions() -> void:
 	pass
 
-func perform_state_transitions(delta : float) ->void:
+func perform_state_transitions(_delta : float) ->void:
 	match state:
 		States.MOVING:
 			speed = base_speed

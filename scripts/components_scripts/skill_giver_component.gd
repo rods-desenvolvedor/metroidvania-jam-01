@@ -11,7 +11,7 @@ func _ready() -> void:
 	player = get_tree().get_first_node_in_group("player")
 	player_area = get_tree().get_first_node_in_group("player_area")
 	
-func _process(delta) -> void:
+func _process(_delta) -> void:
 	if player_on_skill_giver_area && Input.is_action_just_pressed("interact"):
 		new_skill.emit()
 		queue_free()
