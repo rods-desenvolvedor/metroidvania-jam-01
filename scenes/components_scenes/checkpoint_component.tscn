@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://c8wgekeptcknd"]
+
+[ext_resource type="Script" path="res://scripts/components_scripts/checkpoint_component.gd" id="1_5lb5g"]
+[ext_resource type="PackedScene" uid="uid://3eb0perta3jo" path="res://scenes/enemies_scenes/enemies_components/detect_player_component.tscn" id="1_s6hn7"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qudru"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"save",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ectq7"]
+radius = 63.2851
+
+[node name="CheckpointComponent" type="Node2D"]
+script = ExtResource("1_5lb5g")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_qudru")
+animation = &"save"
+
+[node name="DetectPlayerComponent" parent="." instance=ExtResource("1_s6hn7")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectPlayerComponent"]
+shape = SubResource("CircleShape2D_ectq7")

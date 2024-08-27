@@ -140,6 +140,8 @@ bullet = ExtResource("5_1ikkb")
 
 [node name="HurtboxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("5_8a7jh")]
 position = Vector2(0, -5)
+collision_layer = 2
+collision_mask = 32
 health_component = NodePath("../HealthComponent")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
@@ -176,5 +178,6 @@ max_value = 2.0
 value = 1.0
 show_percentage = false
 
+[connection signal="get_hit" from="HealthComponent" to="." method="_on_health_component_get_hit"]
 [connection signal="timeout" from="Timers/ShootTimer" to="GunPivot/Gun" method="_on_shoot_timer_timeout"]
 [connection signal="timeout" from="Timers/ChargedShootTimer" to="GunPivot/Gun" method="_on_charged_shoot_timer_timeout"]

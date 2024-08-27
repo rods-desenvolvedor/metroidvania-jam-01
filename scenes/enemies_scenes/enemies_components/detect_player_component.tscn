@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://3eb0perta3jo"]
+
+[node name="DetectPlayerComponent" type="Area2D"]
+collision_layer = 0
+collision_mask = 2

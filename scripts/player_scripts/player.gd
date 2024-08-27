@@ -68,3 +68,7 @@ func use_skills() -> void:
 		velocity.y = jump_speed
 		PlayerGlobalStatus.jump_count += 1
 	pass
+
+
+func _on_health_component_get_hit():
+	print($HealthComponent.current_health)
