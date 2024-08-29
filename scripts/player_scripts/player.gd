@@ -23,7 +23,7 @@ enum States { IDLE, MOVING, JUMPING , ATTACKING, DASHING}
 var state = States.IDLE
 
 func _ready():
-	hitbox.damage = 50.0
+	hitbox.damage = 10.0
 	$WeaponPivot/HitboxComponent/CollisionShape2D.disabled = true
 	$PlayerArea.collision_layer = 2
 	

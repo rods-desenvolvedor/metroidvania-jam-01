@@ -6,6 +6,8 @@ var speed : float
 var base_speed : float = 60.0
 var dir := -1
 var player_on_attack_area : bool = false
+var stuned : bool = false
+var can_stun : bool = true
 
 @onready var health_component : HealthComponentClass = $HealthComponent
 @onready var animated_sprite : AnimatedSprite2D = $AnimatedSprite2D
@@ -13,7 +15,7 @@ var player_on_attack_area : bool = false
 
 #var experience_scene = preload("res://scenes/components_scenes/experience_component.tscn")
 
-enum States { MOVING, ATTACKING, CHASING}
+enum States { MOVING, ATTACKING, CHASING, STUN}
 var state = States.MOVING
 
 var can_attack : bool = true
@@ -36,8 +38,10 @@ func _process(delta: float) -> void:
 		animated_sprite.flip_h = true
 	elif dir == 1:
 		animated_sprite.flip_h = false
-		
-	position.x += dir * speed * delta
+	if stuned:
+		position.x += -dir * 200.0 * delta
+	if !stuned:
+		position.x += dir * speed * delta
 	
 func _physics_process(_delta: float) -> void:
 	move_and_slide()
@@ -48,10 +52,14 @@ func handle_state_transitions() -> void:
 func perform_state_transitions(_delta : float) ->void:
 	match state:
 		States.MOVING:
+			can_stun = true
+			$HitboxComponent/CollisionShape2D.disabled = false
 			speed = base_speed
 			animated_sprite.play("walk")
 			
 		States.ATTACKING:
+			can_stun = true
+			$HitboxComponent/CollisionShape2D.disabled = false
 			speed = 0.0
 			if can_attack:
 				$AnimatedSprite2D.play("attack")
@@ -60,6 +68,8 @@ func perform_state_transitions(_delta : float) ->void:
 				$AttackTimer.start()
 			
 		States.CHASING:
+			can_stun = true
+			$HitboxComponent/CollisionShape2D.disabled = false
 			if animated_sprite.is_playing():
 				if animated_sprite.animation == "attack":
 					return
@@ -71,10 +81,14 @@ func perform_state_transitions(_delta : float) ->void:
 				dir = 1
 			elif player.position < position:
 				dir = -1
-				
+		States.STUN:
+			if can_stun:
+				stuned = true
+				can_stun = false
+				#$HitboxComponent/CollisionShape2D.disabled = true
+				$StunTimer.start()
+				state = States.CHASING
 			
-	pass
-
 func _on_health_component_died() -> void:
 	#var xp = experience_scene.instantiate() as Node2D
 	#xp.position = position
@@ -101,4 +115,8 @@ func _on_chase_area_area_exited(area: Area2D) -> void:
 		state = States.MOVING
 
 func _on_health_component_get_hit():
-	print(health_component.current_health)
+	state = States.STUN
+
+
+func _on_stun_timer_timeout():
+	stuned = false

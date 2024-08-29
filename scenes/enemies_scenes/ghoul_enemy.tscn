@@ -1,7 +1,8 @@
-[gd_scene load_steps=35 format=3 uid="uid://ddve244sj00eu"]
+[gd_scene load_steps=38 format=3 uid="uid://ddve244sj00eu"]
 
 [ext_resource type="Script" path="res://scripts/enemies_scripts/ghoul_enemy.gd" id="1_gqqry"]
 [ext_resource type="Texture2D" uid="uid://d2nkcivguux1i" path="res://assets/enemies_assets/DARK - Character Pack 3/Ghoul/Attack.png" id="2_r56lq"]
+[ext_resource type="Texture2D" uid="uid://cldshevyrp1y0" path="res://assets/enemies_assets/DARK - Character Pack 3/Ghoul/hit.png" id="3_4an2x"]
 [ext_resource type="Texture2D" uid="uid://c7fmlwy8myoks" path="res://assets/enemies_assets/DARK - Character Pack 3/Ghoul/Ghoul Sprite Sheet 62 x 33.png" id="3_8mfrt"]
 [ext_resource type="PackedScene" uid="uid://dltkniepp3hy3" path="res://scenes/components_scenes/health_component.tscn" id="4_vxucj"]
 [ext_resource type="PackedScene" uid="uid://bs6si2abqd16y" path="res://scenes/components_scenes/hurtbox_component.tscn" id="5_oewlv"]
@@ -37,6 +38,14 @@ region = Rect2(310, 0, 62, 33)
 [sub_resource type="AtlasTexture" id="AtlasTexture_wrutd"]
 atlas = ExtResource("2_r56lq")
 region = Rect2(372, 0, 62, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cscma"]
+atlas = ExtResource("3_4an2x")
+region = Rect2(62, 0, 62, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oqlg8"]
+atlas = ExtResource("3_4an2x")
+region = Rect2(0, 0, 62, 33)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tdjpb"]
 atlas = ExtResource("3_8mfrt")
@@ -100,6 +109,17 @@ animations = [{
 }],
 "loop": false,
 "name": &"attack",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cscma")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oqlg8")
+}],
+"loop": false,
+"name": &"stun",
 "speed": 10.0
 }, {
 "frames": [{
@@ -194,7 +214,7 @@ script = ExtResource("1_gqqry")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_c46xk")
-animation = &"attack"
+animation = &"stun"
 offset = Vector2(0, -16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -252,6 +272,10 @@ libraries = {
 "": SubResource("AnimationLibrary_wgajo")
 }
 
+[node name="StunTimer" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
 [connection signal="died" from="HealthComponent" to="." method="_on_health_component_died"]
 [connection signal="get_hit" from="HealthComponent" to="." method="_on_health_component_get_hit"]
 [connection signal="area_entered" from="DetectPlayerComponent" to="." method="_on_detect_player_component_area_entered"]
@@ -259,3 +283,4 @@ libraries = {
 [connection signal="area_entered" from="ChaseArea" to="." method="_on_chase_area_area_entered"]
 [connection signal="area_exited" from="ChaseArea" to="." method="_on_chase_area_area_exited"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
+[connection signal="timeout" from="StunTimer" to="." method="_on_stun_timer_timeout"]
