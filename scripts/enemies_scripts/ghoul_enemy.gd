@@ -53,7 +53,6 @@ func perform_state_transitions(_delta : float) ->void:
 			
 		States.ATTACKING:
 			speed = 0.0
-			
 			if can_attack:
 				$AnimatedSprite2D.play("attack")
 				$AnimationPlayer.play("attack")

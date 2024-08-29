@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://xtyxj2sqgqfh"]
+[gd_scene load_steps=31 format=3 uid="uid://xtyxj2sqgqfh"]
 
 [ext_resource type="Texture2D" uid="uid://duiny3lc3nyet" path="res://assets/player_assets/Hero Blue 54x53 Sprite.png" id="1_gipu1"]
 [ext_resource type="Script" path="res://scripts/player_scripts/player.gd" id="1_n204c"]
@@ -26,9 +26,21 @@ region = Rect2(162, 318, 54, 53)
 atlas = ExtResource("1_gipu1")
 region = Rect2(216, 318, 54, 53)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_gq35r"]
+atlas = ExtResource("1_gipu1")
+region = Rect2(0, 583, 54, 53)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yg7db"]
+atlas = ExtResource("1_gipu1")
+region = Rect2(54, 583, 54, 53)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_ytbu0"]
 atlas = ExtResource("1_gipu1")
 region = Rect2(108, 0, 54, 53)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jhit2"]
+atlas = ExtResource("1_gipu1")
+region = Rect2(324, 159, 54, 53)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0obgn"]
 atlas = ExtResource("1_gipu1")
@@ -86,14 +98,28 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_gq35r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yg7db")
+}],
+"loop": false,
+"name": &"dash",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_ytbu0")
 }],
 "loop": true,
 "name": &"idle",
 "speed": 5.0
 }, {
-"frames": [],
-"loop": true,
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jhit2")
+}],
+"loop": false,
 "name": &"jump",
 "speed": 5.0
 }, {
@@ -140,6 +166,21 @@ height = 22.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pil3s"]
 
+[sub_resource type="Animation" id="Animation_sfny4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("WeaponPivot/HitboxComponent/CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
 [sub_resource type="Animation" id="Animation_vcn8c"]
 resource_name = "attack"
 length = 0.2
@@ -156,21 +197,6 @@ tracks/0/keys = {
 "values": [false, true]
 }
 
-[sub_resource type="Animation" id="Animation_sfny4"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("WeaponPivot/HitboxComponent/CollisionShape2D:disabled")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_lmij8"]
 _data = {
 "RESET": SubResource("Animation_sfny4"),
@@ -184,7 +210,7 @@ script = ExtResource("1_n204c")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_u2ba7")
-animation = &"attack"
+animation = &"dash"
 offset = Vector2(6, -5)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -195,8 +221,8 @@ shape = SubResource("CircleShape2D_8eotk")
 zoom = Vector2(3.5, 3.5)
 limit_left = 0
 limit_top = 0
-limit_right = 1000
-limit_bottom = 360
+limit_right = 3000
+limit_bottom = 1200
 limit_smoothed = true
 position_smoothing_enabled = true
 
@@ -215,11 +241,15 @@ shape = SubResource("CapsuleShape2D_w3uy2")
 [node name="Timers" type="Node" parent="."]
 
 [node name="AttackTimer" type="Timer" parent="Timers"]
-wait_time = 2.0
+wait_time = 0.3
 one_shot = true
 
 [node name="ChargedShootTimer" type="Timer" parent="Timers"]
 wait_time = 3.0
+one_shot = true
+
+[node name="DashTimer" type="Timer" parent="Timers"]
+wait_time = 0.5
 one_shot = true
 
 [node name="PlayerArea" type="Area2D" parent="." groups=["player_area"]]
@@ -260,3 +290,4 @@ libraries = {
 [connection signal="died" from="HealthComponent" to="." method="_on_health_component_died"]
 [connection signal="get_hit" from="HealthComponent" to="." method="_on_health_component_get_hit"]
 [connection signal="timeout" from="Timers/AttackTimer" to="." method="_on_attack_timer_timeout"]
+[connection signal="timeout" from="Timers/DashTimer" to="." method="_on_dash_timer_timeout"]

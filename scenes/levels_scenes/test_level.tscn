@@ -47,7 +47,7 @@ shape = SubResource("CircleShape2D_l5wef")
 [node name="EntranceMarkers" type="Node2D" parent="."]
 
 [node name="Level01" type="Marker2D" parent="EntranceMarkers"]
-position = Vector2(255, 175)
+position = Vector2(214, 166)
 
 [node name="Label" type="Label" parent="."]
 offset_left = 189.0
