@@ -23,8 +23,12 @@ Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
 
 [dialogic]
 
-directories/dch_directory={}
-directories/dtl_directory={}
+directories/dch_directory={
+"main": "res://dialogues/characters/main.dch"
+}
+directories/dtl_directory={
+"intro": "res://dialogues/intro.dtl"
+}
 
 [display]
 
@@ -87,6 +91,7 @@ dash={
 2d_physics/layer_4="player_hurtbox"
 2d_physics/layer_5="enemies_hurtbox"
 2d_physics/layer_6="enemies_hitbox"
+2d_physics/layer_7="npcs"
 2d_physics/layer_10="skills"
 
 [rendering]

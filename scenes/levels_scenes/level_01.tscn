@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bnfsjagh6kp2c"]
+[gd_scene load_steps=10 format=3 uid="uid://bnfsjagh6kp2c"]
 
 [ext_resource type="Script" path="res://scripts/levels_scripts/level_01.gd" id="1_fekg4"]
 [ext_resource type="PackedScene" uid="uid://xtyxj2sqgqfh" path="res://scenes/player_scenes/player.tscn" id="2_qf50f"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dmmm6pseduumv" path="res://scenes/components_scenes/door_trigger_component.tscn" id="5_ct15u"]
 [ext_resource type="PackedScene" uid="uid://dyhe7sic0bqbj" path="res://scenes/components_scenes/skill_giver_component.tscn" id="5_snwh3"]
 [ext_resource type="PackedScene" uid="uid://ddve244sj00eu" path="res://scenes/enemies_scenes/ghoul_enemy.tscn" id="6_pk4xt"]
+[ext_resource type="PackedScene" uid="uid://d33x5x22rheow" path="res://scenes/npcs_scenes/intro_npc.tscn" id="7_k6dfl"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8u2hx"]
 size = Vector2(34, 73)
@@ -69,5 +70,8 @@ position = Vector2(40, 64)
 
 [node name="Player" parent="." instance=ExtResource("2_qf50f")]
 position = Vector2(84, 66)
+
+[node name="IntroNpc" parent="." instance=ExtResource("7_k6dfl")]
+position = Vector2(409, 74)
 
 [connection signal="new_skill" from="SkillGiverComponent" to="." method="_on_skill_giver_component_new_skill"]
